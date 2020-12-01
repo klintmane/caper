@@ -1,0 +1,9 @@
+.cache
+.env
+.npm
+
+*.log
+*.log*
+
+node_modules/
+dist/
