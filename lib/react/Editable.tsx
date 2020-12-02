@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { Node, NodeFragment } from "../om";
 import { useEvent } from "../utils";
-
+import { supportsBeforeInput } from "../compat";
+console.log("beforeInput", supportsBeforeInput);
 const noop = (e: any) => e.preventDefault();
 
 type Props = { value: any; onKeyDown: Function; onSelectionChange: Function };
@@ -108,23 +109,23 @@ export default (props: Props) => {
     <div
       ref={ref}
       className="ContentEditable"
-      suppressContentEditableWarning
+      // suppressContentEditableWarning
       contentEditable
       // onBeforeInput={(e) => {
       //   console.log(e.data);
       //   e.preventDefault();
       // }}
       // Imports
-      onPaste={noop}
-      onDragOver={noop}
-      // Exports
-      onCut={noop}
-      onCopy={noop}
-      onDragStart={noop}
-      onDrop={noop}
-      // Focus
-      onBlur={noop}
-      onFocus={noop}
+      // onPaste={noop}
+      // onDragOver={noop}
+      // // Exports
+      // onCut={noop}
+      // onCopy={noop}
+      // onDragStart={noop}
+      // onDrop={noop}
+      // // Focus
+      // onBlur={noop}
+      // onFocus={noop}
       // onBeforeInput={noop}
       // onKeyDown={(e) => {
       //   e.preventDefault();

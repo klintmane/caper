@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "es2015",
     "strict": true,
+    "target": "es2015",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
     "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "baseUrl": ".",
+    "paths": {
+      "react*": ["./node_modules/preact/compat"],
+      "react-dom*": ["./node_modules/preact/compat"]
+    },
   },
-  "include": ["examples/**/*.ts*", "lib/**/*.ts*"]
+  "include": ["examples/**/*", "lib/**/*"]
 }
