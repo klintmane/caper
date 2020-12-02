@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/klintmane/ceom/blob/master/icon.png" alt="Caper" width="75" />
+  <img src="https://github.com/klintmane/caper/blob/master/icon.png" alt="Caper" width="75" />
 </div>
 
 <h1 align="center">Caper</h1>
@@ -22,11 +22,9 @@ And of course, it also packs a punch on its own:
 
 TBD
 
-
 ## Installation
 
 TBD
-
 
 ## Usage
 
