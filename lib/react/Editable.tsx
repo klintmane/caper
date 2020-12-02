@@ -1,11 +1,12 @@
-import { useRef } from "react";
+import { JSX, useRef } from "react";
 import { Node, NodeFragment } from "../om";
 import { useEvent } from "../utils";
-import { supportsBeforeInput } from "../compat";
-console.log("beforeInput", supportsBeforeInput);
+import { beforeInputEnabled, beforeInputPolyfill } from "../compat";
+import "./styles.css";
+
 const noop = (e: any) => e.preventDefault();
 
-type Props = { value: any; onKeyDown: Function; onSelectionChange: Function };
+type Props = JSX.HTMLAttributes<HTMLDivElement> & { value: any; onKeyDown: Function; onSelectionChange: Function };
 export default (props: Props) => {
   const { value, onKeyDown, onSelectionChange } = props;
 
@@ -105,12 +106,19 @@ export default (props: Props) => {
     ref.current as EventTarget
   );
 
+  // 'onPaste', 'onDrop', 'onKeyPress',
+
   return (
     <div
       ref={ref}
       className="ContentEditable"
+      autoCorrect={beforeInputEnabled(props.autoCorrect)}
+      autoComplete={beforeInputEnabled(props.autoComplete)}
+      spellcheck={beforeInputEnabled(props.spellcheck)}
       // suppressContentEditableWarning
       contentEditable
+      onKeyPress={beforeInputPolyfill((e) => e.key)}
+
       // onBeforeInput={(e) => {
       //   console.log(e.data);
       //   e.preventDefault();

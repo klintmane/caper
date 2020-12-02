@@ -1,0 +1,5 @@
+.ContentEditable {
+  outline: none;
+  white-space: pre-wrap; /* Preserve adjacent whitespace and new lines. */
+  word-wrap: break-word; /* Allow words to break if they are too long. */
+}
