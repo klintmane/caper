@@ -1,5 +1,5 @@
 import { JSX, useRef } from "react";
-import { Node, NodeFragment } from "../om";
+import { Node, NodeFrag } from "../om";
 import { useEvent } from "../utils";
 import { beforeInputEnabled, beforeInputPolyfill } from "../compat";
 import "./styles.css";
@@ -23,10 +23,10 @@ export default (props: Props) => {
   // Check Slate's polyfilling at https://github.com/ianstormtaylor/slate/blob/main/packages/slate-react/src/components/editable.tsx
   useEvent(
     "beforeinput",
-    (event: Event & { inputType?: string }) => {
+    (e: Event & { inputType?: string }) => {
       if (true) {
         // const { selection } = editor
-        const { inputType: type } = event;
+        const { inputType: type } = e;
         // const data = event.dataTransfer || event.data || undefined
 
         // These two types occur while a user is composing text and can't be
@@ -35,7 +35,7 @@ export default (props: Props) => {
           return;
         }
 
-        event.preventDefault();
+        e.preventDefault();
 
         switch (type) {
           case "deleteByComposition":
@@ -108,13 +108,17 @@ export default (props: Props) => {
 
   // 'onPaste', 'onDrop', 'onKeyPress',
 
+  const { autoCorrect, autoComplete, spellcheck } = props;
+
+  const wBI = beforeInputEnabled({ autoCorrect, autoComplete, spellcheck }, {});
+  const woBI = beforeInputEnabled({}, {}); // {}, {} -> props we want when BI missing
+
   return (
     <div
       ref={ref}
       className="ContentEditable"
-      autoCorrect={beforeInputEnabled(props.autoCorrect)}
-      autoComplete={beforeInputEnabled(props.autoComplete)}
-      spellcheck={beforeInputEnabled(props.spellcheck)}
+      {...wBI}
+      {...woBI}
       // suppressContentEditableWarning
       contentEditable
       onKeyPress={beforeInputPolyfill((e) => e.key)}
@@ -150,7 +154,7 @@ export default (props: Props) => {
   );
 };
 
-export const renderer = (node: Node | NodeFragment, i: number, prev: number[] = []) => {
+export const renderer = (node: Node | NodeFrag, i: number, prev: number[] = []) => {
   const path = prev ? prev.concat([i]) : [i];
   const id = path.join(".");
 
@@ -166,7 +170,7 @@ export const renderer = (node: Node | NodeFragment, i: number, prev: number[] = 
     }
   }
 
-  const { text } = node as NodeFragment;
+  const { text } = node as NodeFrag;
   const props = { id, key: id, children: text };
 
   return <span {...props} />;

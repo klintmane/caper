@@ -14,12 +14,12 @@ const insertNode = (self: Nodes, parentPath: Path, props: Node) => {};
 const updateNode = (self: Nodes, path: Path, props: Node) => {};
 
 export type Path = number[]; // 0.1.0
-export type Node = { type: string; children: (Node | NodeFragment)[] };
-export type NodeFragment = { text: string };
+export type Node = { type: string; children: (Node | NodeFrag)[] };
+export type NodeFrag = { text: string };
 export type Nodes = Node[];
 
 export const createNode = (n: Node) => ({ type: n.type, children: n.children });
-export const createNodeFragment = (n: NodeFragment) => ({ text: n.text });
+export const createNodeFragment = (n: NodeFrag) => ({ text: n.text });
 
 export const example: Nodes = [
   { type: "p", children: [{ text: "Hello" }] },
