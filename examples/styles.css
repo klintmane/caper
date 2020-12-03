@@ -22,3 +22,18 @@
   outline: 1px solid rgba(255, 255, 0, 0.5);
   background: rgba(255, 255, 0, 0.5);
 }
+
+.DevTools {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 30vh;
+  overflow-y: auto;
+  background: #002b36;
+  padding: 1rem;
+}
+
+.DevTools * {
+  font-family: sans-serif !important;
+}
