@@ -1,15 +1,14 @@
 import { useState } from "react";
 
-import ContentEditable from "../lib/react/Editable";
-import { example } from "../lib/om";
+import ContentEditable from "../../lib/react/Editable";
+
 import "./styles.css";
 
-export default () => {
-  const [content, setContent] = useState(example);
+export default (props) => {
   const [selection, setSelection] = useState<Selection>();
 
   // const input = (ch) => ch.length === 1 && setContent(content + ch);
-  const backspace = () => setContent(content.slice(0, -1));
+  // const backspace = () => setContent(content.slice(0, -1));
 
   const onSelectionChange = (sel: Selection) => {
     console.log("Selection changed", sel);
@@ -52,8 +51,8 @@ export default () => {
   };
 
   return (
-    <div className="App">
-      <ContentEditable onKeyDown={() => {}} onSelectionChange={onSelectionChange} value={content} />
+    <div className="Editor">
+      <ContentEditable onKeyDown={() => {}} onSelectionChange={onSelectionChange} value={props.editor.nodes} />
     </div>
   );
 };

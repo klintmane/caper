@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-export * as array from "./array";
 
 export const useEvent = (e: string, fn: EventListenerOrEventListenerObject, target: EventTarget = document) =>
   useEffect(() => {
