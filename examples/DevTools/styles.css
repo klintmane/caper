@@ -1,0 +1,60 @@
+.dev {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  color: white;
+  height: 100%;
+  max-height: 3rem;
+  transition: max-height 0.3s, background-color 0.2s;
+}
+
+.dev.open {
+  max-height: 25vw;
+  background-color: #002b36;
+  transition: max-height 0.3s;
+}
+
+.dev.open .toggle {
+  color: white;
+}
+
+.toggle {
+  color: #002b36;
+  position: absolute;
+  right: 0;
+  margin: 0.75rem;
+  cursor: pointer;
+}
+
+.dev-nav {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dev-nav > li {
+  padding: 1rem;
+  flex: 1;
+  max-width: 10rem;
+  border-bottom: 2px solid transparent;
+}
+
+.dev-nav > li:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dev-nav > li.active {
+  border-color: tomato;
+}
+
+.dev-content {
+  padding: 1rem;
+}

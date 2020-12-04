@@ -1,23 +1,36 @@
-import { JSX, useRef } from "react";
+import { JSX, useEffect, useRef } from "react";
 import { Node, NodeFrag } from "../types";
 import { useEvent } from "./utils";
 import { beforeInputEnabled, beforeInputPolyfill } from "./compat";
+import * as Caper from "../editor";
 import "./styles.css";
 
 const noop = (e: any) => e.preventDefault();
 
-type Props = JSX.HTMLAttributes<HTMLDivElement> & { value: any; onKeyDown: Function; onSelectionChange: Function };
+type Props = JSX.HTMLAttributes<HTMLDivElement> & { editor: Caper.Editor; value: any; onKeyDown: Function; onSelectionChange: Function };
 export default (props: Props) => {
-  const { value, onKeyDown, onSelectionChange } = props;
+  const { editor, value, onKeyDown, onSelectionChange } = props;
 
   const ref = useRef<HTMLDivElement>(null);
+  const sel = useRef(null);
+
+  useEffect(() => {
+    const selection = document.getSelection();
+    const { anchorNode, anchorOffset, focusNode, focusOffset } = sel.current || {};
+
+    // selection
+    selection?.setBaseAndExtent(anchorNode, anchorOffset + 1, focusNode, focusOffset + 1);
+    console.log(sel.current);
+  }, [value]);
 
   useEvent("selectionchange", () => {
-    const sel = document.getSelection();
-    const { anchorNode, anchorOffset, focusNode, focusOffset } = sel || {};
+    const { anchorNode, anchorOffset, focusNode, focusOffset } = document.getSelection() || {};
     const anchorPath = anchorNode?.parentElement?.getAttribute("id"); // http://help.dottoro.com/ljkstboe.php (on most cases anchor/focus nodes are text. Other cases they're not - handle those)
     const focusPath = focusNode?.parentElement?.getAttribute("id");
-    onSelectionChange({ anchorPath, anchorOffset, focusPath, focusOffset });
+
+    const value = { anchorPath, anchorNode, focusNode, anchorOffset, focusPath, focusOffset };
+    sel.current = value;
+    onSelectionChange(value);
   });
 
   // Check Slate's polyfilling at https://github.com/ianstormtaylor/slate/blob/main/packages/slate-react/src/components/editable.tsx
@@ -27,14 +40,13 @@ export default (props: Props) => {
       if (true) {
         // const { selection } = editor
         const { inputType: type } = e;
-        // const data = event.dataTransfer || event.data || undefined
+        const data = e.dataTransfer || e.data || undefined;
 
         // These two types occur while a user is composing text and can't be
         // cancelled. Let them through and wait for the composition to end.
         if (type === "insertCompositionText" || type === "deleteCompositionText") {
           return;
         }
-
         e.preventDefault();
 
         switch (type) {
@@ -93,6 +105,11 @@ export default (props: Props) => {
           case "insertFromYank":
           case "insertReplacementText":
           case "insertText":
+            if (data && sel.current.focusPath === sel.current.anchorPath) {
+              Caper.insertText(editor.nodes, sel.current.focusPath.split("."), sel.current.focusOffset, data);
+              console.log("BEFOREINPUT", type, data, sel.current);
+            }
+
             // if (data instanceof DataTransfer) {
             //   ReactEditor.insertData(editor, data)
             // } else if (typeof data === 'string') {

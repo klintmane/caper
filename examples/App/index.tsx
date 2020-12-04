@@ -1,22 +1,28 @@
-import * as Caper from "../../lib/editor";
+import { StrictMode } from "react";
+import { render } from "react-dom";
+
+import { init } from "../../lib/editor";
 import { useEditor } from "../../lib/react/hooks";
-
 import Editor from "./Editor";
-import DevTools from "./DevTools";
+import Dev from "../DevTools";
+import initialValue from "./initialValue";
 
-const editor = Caper.create();
-Caper.insertNode(editor.nodes, [0], Caper.example);
+const editor = init(initialValue);
 
-window.Caper = Caper;
-window.editor = editor;
-
-export default () => {
+const App = () => {
   const value = useEditor(editor);
 
   return (
     <div className="App">
-      <Editor editor={value} />
-      <DevTools editor={value} />
+      <Editor editor={editor} doc={value} />
+      <Dev editor={editor} doc={value} />
     </div>
   );
 };
+
+render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById("root")!
+);

@@ -11,7 +11,7 @@ export default (props) => {
   // const backspace = () => setContent(content.slice(0, -1));
 
   const onSelectionChange = (sel: Selection) => {
-    console.log("Selection changed", sel);
+    // console.log("Selection changed", sel);
     setSelection(sel);
   };
 
@@ -52,7 +52,7 @@ export default (props) => {
 
   return (
     <div className="Editor">
-      <ContentEditable onKeyDown={() => {}} onSelectionChange={onSelectionChange} value={props.editor.nodes} />
+      <ContentEditable onKeyDown={() => {}} onSelectionChange={onSelectionChange} editor={props.editor} value={props.doc.nodes} />
     </div>
   );
 };
